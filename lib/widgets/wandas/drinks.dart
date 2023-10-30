@@ -24,9 +24,10 @@ class _DrinksState extends ConsumerState<Drinks> {
 
   // this is for the individual items
   void _onSelectCoffee(Drink drink) {
-    ref.read(drinksProvider.notifier).addDrink(drink);
     Navigator.of(context).push(MaterialPageRoute(builder: (contxt) {
-      return const DrinkDetails();
+      return DrinkDetails(
+        drink: drink,
+      );
     }));
   }
 

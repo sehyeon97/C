@@ -45,17 +45,13 @@ class Drink {
 
   void addToppings(List<String> toppings) {
     for (String topping in toppings) {
-      switch (topping) {
-        case 'Caramel Drizzle':
-          calories += 15;
-          fat += 1;
-          sugar += 2;
-          break;
-        case 'Mocha Drizzle':
-          calories += 5;
-          sugar += 1;
-          break;
-        default:
+      if (topping == 'Caramel Drizzle') {
+        calories += 15;
+        fat += 1;
+        sugar += 2;
+      } else {
+        calories += 5;
+        sugar += 1;
       }
     }
   }

@@ -1,27 +1,51 @@
 import 'package:flutter/material.dart';
-import 'package:meals/models/wandas/wandas_drinks.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class DrinkDetails extends StatefulWidget {
-  const DrinkDetails({super.key});
+import 'package:meals/models/wandas/milk.dart';
+import 'package:meals/models/wandas/wandas_drinks.dart';
+import 'package:meals/providers/drinks_provider.dart';
+
+class DrinkDetails extends ConsumerStatefulWidget {
+  const DrinkDetails({
+    super.key,
+    required this.drink,
+  });
+
+  final Drink drink;
 
   @override
-  State<DrinkDetails> createState() => _DrinkDetailsState();
+  ConsumerState<DrinkDetails> createState() => _DrinkDetailsState();
 }
 
-class _DrinkDetailsState extends State<DrinkDetails> {
-  var _dropDownValue = 'None';
+class _DrinkDetailsState extends ConsumerState<DrinkDetails> {
   bool addedShots = false;
   int currentShots = 0;
-  Drink customDrink = Drink(
-    id: 'custom',
-    title: 'Custom Drink',
-    calories: 0,
-    sugar: 0,
-    caffeine: 0,
-    fat: 0,
-  );
 
-  void _onSelectEspressoShots(String shots) {
+  var selectedMilk;
+  Map<String, Milk> milks = {
+    'Whole Milk': WholeMilk(),
+    '2% Milk': TwoPercentMilk(),
+    'Almond Milk': AlmondMilk(),
+    'Coconut Milk': CoconutMilk(),
+    'Heavy Cream': HeavyCream(),
+    'Nonfat Milk': NonFatMilk(),
+    'Oat Milk': OatMilk(),
+    'Soy Milk': SoyMilk(),
+  };
+
+  late String _dropDownEspresso;
+  late String _dropDownMilk;
+  late String _dropDownTopping;
+
+  @override
+  void initState() {
+    super.initState();
+    _dropDownEspresso = 'None';
+    _dropDownMilk = 'Default';
+    _dropDownTopping = 'None';
+  }
+
+  void _onSelectEspressoShots(String shots, Drink customDrink) {
     switch (shots) {
       case 'None':
         if (addedShots) {
@@ -60,23 +84,66 @@ class _DrinkDetailsState extends State<DrinkDetails> {
         break;
       default:
     }
+
+    setState(() {
+      _dropDownEspresso = shots;
+    });
+  }
+
+  void _onSelectMilk(String milk) {
+    if (milks.containsKey(milk)) {
+      selectedMilk = milks[milk];
+    }
+
+    setState(() {
+      _dropDownMilk = milk;
+    });
+  }
+
+  void _onSelectToppings(String topping) {
+    setState(() {
+      _dropDownTopping = topping;
+    });
+  }
+
+  void _onAddButton(Drink customDrink) {
+    if (selectedMilk != null) {
+      customDrink.addMilk([selectedMilk]);
+    }
+
+    if (_dropDownTopping != 'None') {
+      customDrink.addToppings([_dropDownTopping]);
+    }
+
+    ref.read(drinksProvider.notifier).addDrink(customDrink);
+    Navigator.of(context).pop();
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    selectedMilk.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    Drink customDrink = widget.drink;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Drink Details'),
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Expanded(
             child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 const Text('Espresso Shots'),
                 const SizedBox(width: 10),
                 DropdownButton(
-                  value: _dropDownValue,
+                  value: _dropDownEspresso,
                   items: const [
                     DropdownMenuItem(
                       value: 'None',
@@ -100,9 +167,106 @@ class _DrinkDetailsState extends State<DrinkDetails> {
                     ),
                   ],
                   onChanged: (String? newValue) => {
-                    _dropDownValue = newValue!,
-                    _onSelectEspressoShots(newValue),
+                    _onSelectEspressoShots(newValue!, customDrink),
                   },
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text('Milk'),
+                const SizedBox(width: 10),
+                DropdownButton(
+                  value: _dropDownMilk,
+                  items: const [
+                    DropdownMenuItem(
+                      value: 'Default',
+                      child: Text('Default'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Whole Milk',
+                      child: Text('Whole Milk'),
+                    ),
+                    DropdownMenuItem(
+                      value: '2% Milk',
+                      child: Text('2% Milk'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Almond Milk',
+                      child: Text('Almond Milk'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Coconut Milk',
+                      child: Text('Coconut Milk'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Heavy Cream',
+                      child: Text('Heavy Cream'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Nonfat Milk',
+                      child: Text('Nonfat Milk'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Oat Milk',
+                      child: Text('Oat Milk'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Soy Milk',
+                      child: Text('Soy Milk'),
+                    ),
+                  ],
+                  onChanged: (String? newValue) => {
+                    _onSelectMilk(newValue!),
+                  },
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Text('Toppings'),
+                const SizedBox(width: 10),
+                DropdownButton(
+                  value: _dropDownTopping,
+                  items: const [
+                    DropdownMenuItem(
+                      value: 'None',
+                      child: Text('None'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Caramel Drizzle',
+                      child: Text('Caramel Drizzle'),
+                    ),
+                    DropdownMenuItem(
+                      value: 'Mocha Drizzle',
+                      child: Text('Mocha Drizzle'),
+                    ),
+                  ],
+                  onChanged: (newValue) => {
+                    if (newValue != null)
+                      {
+                        _onSelectToppings(newValue),
+                      }
+                  },
+                ),
+              ],
+            ),
+          ),
+          Expanded(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    _onAddButton(customDrink);
+                  },
+                  child: const Text('Add'),
                 ),
               ],
             ),
