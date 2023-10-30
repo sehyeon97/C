@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:meals/data/dummy_data.dart';
 import 'package:meals/models/category.dart';
 import 'package:meals/screens/meals.dart';
+import 'package:meals/screens/wandas_coffee.dart';
 import 'package:meals/widgets/category_grid_item.dart';
 
 // changed from stateless to stateful widget for animations
@@ -78,7 +79,38 @@ class _CategoriesScreenState extends State<CategoriesScreen>
               onSelectCategory: () {
                 _selectCategory(context, category);
               },
-            )
+            ),
+          InkWell(
+            onTap: () {
+              Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (contxt) => const WandasCoffeeScreen(),
+                ),
+              );
+            },
+            splashColor: Theme.of(context).primaryColor,
+            borderRadius: BorderRadius.circular(16),
+            child: Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                gradient: const LinearGradient(
+                  colors: [
+                    Color.fromARGB(255, 197, 143, 123),
+                    Color.fromARGB(255, 197, 143, 123),
+                  ],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+              ),
+              child: Text(
+                'Wanda\'s Coffee',
+                style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                      color: Theme.of(context).colorScheme.onBackground,
+                    ),
+              ),
+            ),
+          ),
         ],
       ),
       builder: (context, child) => SlideTransition(

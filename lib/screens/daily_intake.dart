@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:meals/models/meal.dart';
 
 import 'package:meals/models/nutrient_info.dart';
+import 'package:meals/providers/drinks_provider.dart';
 import 'package:meals/providers/meals_provider.dart';
 import 'package:meals/screens/meal_details.dart';
 
@@ -32,6 +33,13 @@ class _DailyIntakeState extends ConsumerState<DailyIntake> {
   Widget build(BuildContext context) {
     NutritionInfo nutritionInfo =
         ref.read(mealsProvider.notifier).getNutritionInfo();
+    var drinkNutritionInfo =
+        ref.watch(drinksProvider.notifier).getDrinksNutritionInfo();
+    int calories =
+        int.parse(nutritionInfo.calories) + drinkNutritionInfo.calories;
+    double sugar = double.parse(nutritionInfo.sugar) + drinkNutritionInfo.sugar;
+    int caffeine = drinkNutritionInfo.caffeine;
+    double fat = double.parse(nutritionInfo.totalFat) + drinkNutritionInfo.fat;
 
     return SingleChildScrollView(
       child: Center(
@@ -50,7 +58,7 @@ class _DailyIntakeState extends ConsumerState<DailyIntake> {
             ),
             const SizedBox(height: 8),
             Text(
-              nutritionInfo.calories,
+              '$calories',
               style: const TextStyle(
                 fontSize: 18,
               ),
@@ -65,7 +73,7 @@ class _DailyIntakeState extends ConsumerState<DailyIntake> {
             ),
             const SizedBox(height: 8),
             Text(
-              '${nutritionInfo.totalFat} g',
+              '$fat g',
               style: const TextStyle(
                 fontSize: 18,
               ),
@@ -155,7 +163,7 @@ class _DailyIntakeState extends ConsumerState<DailyIntake> {
             ),
             const SizedBox(height: 8),
             Text(
-              '${nutritionInfo.sugar} g',
+              '$sugar g',
               style: const TextStyle(
                 fontSize: 18,
               ),
@@ -175,7 +183,22 @@ class _DailyIntakeState extends ConsumerState<DailyIntake> {
                 fontSize: 18,
               ),
             ),
-            const SizedBox(height: 50),
+            const SizedBox(height: 8),
+            const Text(
+              'Caffeine',
+              style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 18,
+              ),
+            ),
+            const SizedBox(height: 8),
+            Text(
+              '$caffeine mg',
+              style: const TextStyle(
+                fontSize: 18,
+              ),
+            ),
+            const SizedBox(height: 16),
             const Text(
               'Meals Eaten',
               style: TextStyle(

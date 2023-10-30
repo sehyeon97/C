@@ -22,11 +22,6 @@ const availableCategories = [
     title: 'Shake Smart',
     color: Colors.lightBlue,
   ),
-  Category(
-    id: 'c4',
-    title: 'Off-Campus Food',
-    color: Color.fromARGB(255, 112, 241, 122),
-  ),
 ];
 
 const mealsData = [
