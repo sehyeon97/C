@@ -6,7 +6,9 @@ class TopBar extends StatelessWidget {
     required this.onSelectDrinkType,
   });
 
-  final void Function(String drinkType) onSelectDrinkType;
+  final void Function(
+    String drinkType,
+  ) onSelectDrinkType;
 
   @override
   Widget build(BuildContext context) {
