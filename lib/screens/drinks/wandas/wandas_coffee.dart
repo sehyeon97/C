@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:meals/widgets/wandas/drinks.dart';
+import 'package:meals/screens/drinks/drinks.dart';
 
 class WandasCoffeeScreen extends StatefulWidget {
   const WandasCoffeeScreen({super.key});

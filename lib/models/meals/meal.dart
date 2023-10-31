@@ -1,4 +1,4 @@
-import 'package:meals/models/nutrient_info.dart';
+import 'package:meals/models/results/nutrient_info.dart';
 
 class Meal {
   const Meal({

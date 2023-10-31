@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:meals/models/burger_info.dart';
-import 'package:meals/models/meal.dart';
+import 'package:meals/models/results/burger_info.dart';
+import 'package:meals/models/meals/meal.dart';
 import 'package:meals/providers/meals_provider.dart';
-import 'package:meals/screens/tabs.dart';
+import 'package:meals/screens/home/tabs.dart';
 
 class MealDetailsScreen extends ConsumerStatefulWidget {
   const MealDetailsScreen({

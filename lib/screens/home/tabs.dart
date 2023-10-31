@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
 
-import 'package:meals/screens/categories.dart';
-import 'package:meals/screens/daily_intake.dart';
+import 'package:meals/screens/home/categories.dart';
+import 'package:meals/screens/results/daily_intake.dart';
 
 class TabsScreen extends ConsumerStatefulWidget {
   const TabsScreen({super.key});

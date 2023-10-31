@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:meals/data/dummy_data.dart';
+import 'package:meals/data/meals_data.dart';
 import 'package:meals/models/category.dart';
-import 'package:meals/screens/meals.dart';
-import 'package:meals/screens/wandas_coffee.dart';
-import 'package:meals/widgets/category_grid_item.dart';
+import 'package:meals/screens/meals/meals.dart';
+import 'package:meals/screens/drinks/wandas/wandas_coffee.dart';
+import 'package:meals/widgets/home/category_grid_item.dart';
 
 // changed from stateless to stateful widget for animations
 class CategoriesScreen extends StatefulWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-import 'package:meals/models/meal.dart';
-import 'package:meals/models/nutrient_info.dart';
+import 'package:meals/models/meals/meal.dart';
+import 'package:meals/models/results/nutrient_info.dart';
 
 // methods are triggered in the meal_details screen
 // the provided data is consumed by meal_details for getting count of selected meals eaten,
